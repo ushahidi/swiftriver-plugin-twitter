@@ -27,13 +27,15 @@ return array(
 				'label' => __('Keyword'),
 				'type' => 'text',
 				'values' => array(),
-				'placeholder' => 'E.g. Ushahidi, "African Tech" For multiple keywords, separate each keyword with a ","'
+				'placeholder' => 'E.g. Ushahidi, "African Tech" For multiple keywords, separate each keyword with a ","',
+				'default_quota' => 999
 			),
 			'user' => array(
 				'label' => __('User'),
 				'type' => 'text',
 				'values' => array(),
-				'placeholder' => 'E.g. @ushahidi To add multiple users, seperate each user with a "," e.g. @ushahidi, @crowdmap'
+				'placeholder' => 'E.g. @ushahidi To add multiple users, seperate each user with a "," e.g. @ushahidi, @crowdmap',
+				'default_quota' => 999
 			)
 		),
 		'dependencies'	=> array(
