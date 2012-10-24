@@ -56,6 +56,7 @@ class Twitter_Init {
 		// Apply validation rules to the options
 		if (isset($option_data['channel']) AND $option_data['channel'] == 'twitter')
 		{
+			$option_data['quota_usage'] = 0;
 			$this->_validate_user($option_data);
 			$this->_validate_keyword($option_data);
 		}
@@ -67,7 +68,7 @@ class Twitter_Init {
 	 * @param array $option_data
 	 * @return void
 	 */
-	private function _validate_user($option_data)
+	private function _validate_user(&$option_data)
 	{
 		// Validate user ids - Verify that they exist on twitter
 		if ($option_data['key'] == 'user')
@@ -96,7 +97,8 @@ class Twitter_Init {
 						array(':screen_name' => $screen_name));
 					throw new Swiftriver_Exception_Channel_Option($exception_message);
 				}
-
+				
+				$option_data['quota_usage'] += 1;
 			}
 		}
 	}
@@ -107,7 +109,7 @@ class Twitter_Init {
 	 * @param array $option_data
 	 * @return void
 	 */
-	private function _validate_keyword($option_data)
+	private function _validate_keyword(&$option_data)
 	{
 		if ($option_data['key'] == 'keyword')
 		{
@@ -125,6 +127,7 @@ class Twitter_Init {
 				{
 					$found[] = $value;
 				}
+				$option_data['quota_usage'] += 1;
 			}
 
 			if (count($found))
