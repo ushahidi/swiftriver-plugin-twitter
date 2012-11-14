@@ -23,7 +23,7 @@ class Swiftriver_Crawler_Twitter  {
 	public function crawl($river_id)
 	{
 		// If the river ID is NULL or non-existent, exit
-		if (empty($river_id) OR ! ORM::factory('river', $river_id)->loaded())
+		if (empty($river_id) OR ! ORM::factory('River', $river_id)->loaded())
 		{
 			Kohana::$log->add(Log::ERROR, 'Invalid database river id: :river_id', 
 				array(':river_id' => $river_id));
@@ -65,7 +65,7 @@ class Swiftriver_Crawler_Twitter  {
 				}							
 			}
 			
-			$twitter_crawls = ORM::factory('twitter_crawl')
+			$twitter_crawls = ORM::factory('Twitter_Crawl')
 			    ->where('river_id', '=', $river_id)
 			    ->find();
 			
