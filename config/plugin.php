@@ -18,24 +18,33 @@ return array(
 	'twitter' => array(
 		'name'			=> 'Twitter',
 		'description'	=> 'Adds a Twitter channel to SwiftRiver.',
-		'author'		=> 'David Kobia',
-		'email'			=> 'david@ushahidi.com',
+		'author'		=> 'Ushahidi Team',
+		'email'			=> 'team@ushahidi.com',
 		'version'		=> '0.1.0',
 		'channel'       => TRUE,
 		'channel_options' => array(
-			'keyword' => array(
-				'label' => __('Keyword'),
-				'type' => 'text',
-				'values' => array(),
-				'placeholder' => 'E.g. Ushahidi, "African Tech" For multiple keywords, separate each keyword with a ","',
-				'default_quota' => 999
-			),
-			'user' => array(
-				'label' => __('User'),
-				'type' => 'text',
-				'values' => array(),
-				'placeholder' => 'E.g. @ushahidi To add multiple users, seperate each user with a "," e.g. @ushahidi, @crowdmap',
-				'default_quota' => 999
+			'track' => array(
+				'label' => __('Twitter Track'),	
+				'type' => 'group',
+				'default_quota' => 5,
+				'options' => array(
+					'keyword' => array(
+						'label' => __('Keyword'),
+						'type' => 'text',
+						'placeholder' => 'Enter keywords separated by commas',
+					),
+					'user' => array(
+						'label' => __('User'),
+						'type' => 'text',
+						'placeholder' => 'Enter twitter usernames separated by commas',
+							
+					),
+					'location' => array(
+						'label' => __('Location'),
+						'type' => 'geo',
+						'placeholder' => 'Enter location',
+					)
+				)
 			)
 		),
 		'dependencies'	=> array(

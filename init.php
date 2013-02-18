@@ -21,7 +21,10 @@ class Twitter_Init {
 	    Swiftriver_Crawlers::register('twitter', array(new Swiftriver_Crawler_Twitter(), 'crawl'));
 	    	    
 		// Validate Channel Filter Settings Input
-		Swiftriver_Event::add('swiftriver.channel.option.pre_save', array($this, 'validate'));
+		Swiftriver_Event::add('swiftriver.channel.validate', array($this, 'validate'));
+		
+		// Create a string representation of the channel
+		Swiftriver_Event::add('swiftriver.channel.format', array($this, 'format'));
 		
 		// Hook into welcome page new river creation
 		Swiftriver_Event::add('swiftriver.welcome.create_river', array($this, 'add_chanel_options'));
@@ -44,6 +47,33 @@ class Twitter_Init {
 			                                'value' => trim($keywords)
 		));
 	}
+	
+	/**
+	 * Call back method for swiftriver.channel.format
+	 */
+	public function format()
+	{
+		// Get the event data
+		$channel_data =  & Swiftriver_Event::$data;
+		
+		if (isset($channel_data['channel']) AND $channel_data['channel'] == 'twitter')
+		{
+			$parameters = $channel_data['parameters']['value'];
+			
+			if (isset($parameters['user']))
+			{
+				$channel_data['display_name'] .= 'From: '.$parameters['user'];
+			}
+			if (isset($parameters['keyword']))
+			{
+				$channel_data['display_name'] .= ' Keywords: '.$parameters['keyword'];
+			}
+			if (isset($parameters['location']))
+			{
+				$channel_data['display_name'] .= ' Location: '.$parameters['location'];
+			}
+		}
+	}
 
 	/**
 	 * Call back method for swiftriver.river.pre_save to validate channel settings
@@ -53,13 +83,16 @@ class Twitter_Init {
 		// Get the event data
 		$option_data =  & Swiftriver_Event::$data;
 		
-		// Apply validation rules to the options
-		if (isset($option_data['channel']) AND $option_data['channel'] == 'twitter')
-		{
-			$option_data['quota_usage'] = 0;
-			$this->_validate_user($option_data);
-			$this->_validate_keyword($option_data);
-		}
+		if ( ! (isset($option_data['channel']) AND $option_data['channel'] == 'twitter'))
+			return;
+		
+		$parameters = $option_data['parameters'];
+		Kohana::$log->add(Log::DEBUG, var_export($parameters, TRUE));
+
+		if ( ! isset($parameters['value']['user']) &&
+			 ! isset($parameters['value']['keyword']) &&
+				  ! isset($parameters['value']['location']))
+			throw new Swiftriver_Exception_Channel_Option('Invalid Twitter Parameters');
 	}
 
 	/**
