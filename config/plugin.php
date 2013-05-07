@@ -37,12 +37,6 @@ return array(
 						'label' => __('User'),
 						'type' => 'text',
 						'placeholder' => 'Enter twitter usernames separated by commas',
-							
-					),
-					'location' => array(
-						'label' => __('Location'),
-						'type' => 'geo',
-						'placeholder' => 'Enter location',
 					)
 				)
 			)
