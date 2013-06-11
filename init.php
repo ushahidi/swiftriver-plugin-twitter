@@ -17,9 +17,6 @@ class Twitter_Init {
 
 	public function __construct()
 	{
-	    // Register as a crawler
-	    Swiftriver_Crawlers::register('twitter', array(new Swiftriver_Crawler_Twitter(), 'crawl'));
-	    	    
 		// Validate Channel Filter Settings Input
 		Swiftriver_Event::add('swiftriver.channel.validate', array($this, 'validate'));
 		
